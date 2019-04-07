@@ -1,0 +1,13 @@
+body {
+	margin-top: 70px;
+}
+
+.pointer {
+	cursor: pointer
+}
+
+.print {
+	position: absolute;
+	top: 80px;
+	right: 10px;
+}
