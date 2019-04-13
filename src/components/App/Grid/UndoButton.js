@@ -12,7 +12,7 @@ function UndoButton({ disabled, undo }) {
     const undoable = disabled ? { disabled: "disabled" } : { title: "Annuler" };
     return (
         <button
-            className="btn btn-secondary  mb-1"
+            className="btn btn-secondary mt-1"
             onClick={handleUndo}
             {...undoable}
         >
