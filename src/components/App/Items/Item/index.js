@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import ReactFileReader from "react-file-reader";
 import { readAsDataURL } from "promise-file-reader";
 import { selectItem } from "../../../../actions";
+import DoButton from "./DoButton";
+import UploadFile from "./UploadFile";
 
 const WIDTH = 150;
 function Item({ name, url, item, selectItem }) {
@@ -130,52 +131,17 @@ function Item({ name, url, item, selectItem }) {
                         </svg>
                     </button>
                 )}
-                <ReactFileReader
-                    fileTypes={["image/png", "image/jpg", "image/gif"]}
-                    handleFiles={handleFiles}
-                >
-                    <button
-                        className="btn btn-primary mx-2"
-                        title={`Utiliser une autre image comme ${name.toLowerCase()}`}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            height="1em"
-                            fill="#f8f9fa"
-                        >
-                            <path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z" />
-                        </svg>
-                    </button>
-                </ReactFileReader>
-                <button
-                    className="btn btn-secondary"
-                    {...undoable}
-                    onClick={handleUndo}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        height="1em"
-                        fill="#f8f9fa"
-                    >
-                        <path d="M10 13h8V7h-8V2l-8 8 8 8v-5z" />
-                    </svg>
-                </button>
-                <button
-                    className="btn btn-secondary"
-                    {...redoable}
-                    onClick={handleRedo}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        height="1em"
-                        fill="#f8f9fa"
-                    >
-                        <path d="M10 7H2v6h8v5l8-8-8-8v5z" />
-                    </svg>
-                </button>
+                <UploadFile handleFiles={handleFiles} name={name} />
+                <DoButton
+                    doable={undoable}
+                    onHandleClick={handleUndo}
+                    path="M10 13h8V7h-8V2l-8 8 8 8v-5z"
+                />
+                <DoButton
+                    doable={redoable}
+                    onHandleClick={handleRedo}
+                    path="M10 7H2v6h8v5l8-8-8-8v5z"
+                />
             </div>
         </div>
     );
