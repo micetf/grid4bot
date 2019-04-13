@@ -9,11 +9,12 @@ function UndoButton({ disabled, undo }) {
             undo();
         }
     }
+    const undoable = disabled ? { disabled: "disabled" } : { title: "Annuler" };
     return (
         <button
-            className={`btn btn-secondary  mt-1 ${disabled ? "disabled" : ""}`}
+            className="btn btn-secondary  mb-1"
             onClick={handleUndo}
-            title="Annuler"
+            {...undoable}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

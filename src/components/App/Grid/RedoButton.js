@@ -9,11 +9,14 @@ function RedoButton({ disabled, redo }) {
             redo();
         }
     }
+    const redoable = disabled
+        ? { disabled: "disabled" }
+        : { title: "Rétablir" };
     return (
         <button
-            className={`btn btn-secondary  mb-1 ${disabled ? "disabled" : ""}`}
+            className="btn btn-secondary  mb-1"
             onClick={handleRedo}
-            title="Rétablir"
+            {...redoable}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
