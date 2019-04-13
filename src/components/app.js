@@ -1,11 +1,11 @@
 import React from "react";
 
 import Navbar from "./Navbar";
-import Grid from "./Grid";
+import App from "./App";
 
 export default () => (
     <div className="container">
         <Navbar />
-        <Grid />
+        <App />
     </div>
 );

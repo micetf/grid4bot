@@ -1,8 +1,25 @@
 import * as types from "./types";
 
+export const undo = () => {
+    return {
+        type: types.UNDO,
+    };
+};
+
+export const redo = () => {
+    return {
+        type: types.REDO,
+    };
+};
+
 export const adjustGrid = () => ({
     type: types.ADJUST_GRID,
 });
+
+export const cleanGrid = () =>
+    console.log("click") || {
+        type: types.CLEAN_GRID,
+    };
 
 export const addRow = side => ({
     type: types.ADD_ROW,

@@ -6,8 +6,15 @@ body {
 	cursor: pointer
 }
 
-.print {
+.buttons {
 	position: absolute;
 	top: 80px;
 	right: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.grid {
+	max-width: 45vh;
+	max-height: 45vh;
 }
