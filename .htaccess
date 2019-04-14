@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteRule ^$ build/
+RewriteRule ^static(.*) build/static$1
+RewriteRule ^img(.*) build/img$1
