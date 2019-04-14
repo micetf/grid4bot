@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { undo } from "../../../actions";
+import { undo } from "../../../../actions";
 
 function UndoButton({ disabled, undo }) {
     function handleUndo(e) {

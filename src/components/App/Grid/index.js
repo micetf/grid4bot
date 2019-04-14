@@ -5,10 +5,7 @@ import ImgGrid from "./ImgGrid";
 import ManageRowButton from "./ManageRowButton";
 import ManageColumnButton from "./ManageColumnButton";
 import AdjustGridButton from "./AdjustGridButton";
-import CleanGridButton from "./CleanGridButton";
-import PrintGridButton from "./PrintGridButton";
-import UndoButton from "./UndoButton";
-import RedoButton from "./RedoButton";
+import AbsoluteButtons from "./AbsoluteButtons";
 
 import useGrid from "./useGrid";
 import { toggleItem } from "../../../actions";
@@ -43,15 +40,8 @@ function Grid({ grid, item: { url }, toggleItem }) {
                 </div>
                 <ManageRowButton side="AFTER" />
             </div>
-            <div className="row justify-content-center">
-                <AdjustGridButton adjust={grid.adjust} />
-            </div>
-            <div className="buttons">
-                <PrintGridButton src={src} />
-                <CleanGridButton />
-                <UndoButton />
-                <RedoButton />
-            </div>
+            <AdjustGridButton adjust={grid.adjust} />
+            <AbsoluteButtons src={src} />
         </div>
     );
 }

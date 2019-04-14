@@ -3,7 +3,7 @@ import ReactFileReader from "react-file-reader";
 export default function UploadFile({ handleFiles, name }) {
     return (
         <ReactFileReader
-            fileTypes={["image/png", "image/jpg", "image/gif"]}
+            fileTypes={["image/png", "image/jpg", "image/jpeg", "image/gif"]}
             handleFiles={handleFiles}
         >
             <button

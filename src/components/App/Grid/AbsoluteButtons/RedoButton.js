@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { redo } from "../../../actions";
+import { redo } from "../../../../actions";
 
 function RedoButton({ disabled, redo }) {
     function handleRedo(e) {

@@ -5,7 +5,7 @@ export default function ImgGrid({ src, img, handleToggleItem }) {
         <div className="text-center my-2 mx-2">
             <img
                 ref={img}
-                className="pointer border border-secondary"
+                className="grid pointer border border-secondary"
                 src={src}
                 alt="Grille"
                 onClick={handleToggleItem}

@@ -1,29 +1,9 @@
-function createStore() {
+async function getCanvas({ cols, rows, adjust, items }) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
+    const CELL_SIZE = 100;
 
-    let state = {
-        canvas,
-        ctx,
-        CELL_SIZE: 100,
-    };
-
-    function getState() {
-        return state;
-    }
-    function setGrid(grid) {
-        state = { ...state, ...grid };
-    }
-    return {
-        getState,
-        setGrid,
-    };
-}
-
-const store = createStore();
-async function getCanvas(grid) {
-    store.setGrid(grid);
-    const { canvas, ctx, CELL_SIZE, cols, rows, adjust } = store.getState();
+    const state = { ctx, CELL_SIZE, cols, rows, adjust, items };
 
     canvas.width = adjust ? CELL_SIZE * cols : CELL_SIZE * Math.max(cols, rows);
     canvas.height = adjust
@@ -34,47 +14,48 @@ async function getCanvas(grid) {
     ctx.strokeStyle = "black";
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    await drawGrid();
+    await drawGrid(state);
 
     return canvas;
 }
 
-async function drawGrid() {
-    const { rows } = store.getState();
+async function drawGrid(state) {
+    const { rows } = state;
     let row = 0;
     do {
-        await drawRow(row);
+        await drawRow(state, { row });
     } while (rows - 1 > row++);
 }
 
-async function drawRow(row) {
-    const { ctx, cols, CELL_SIZE } = store.getState();
+async function drawRow(state, { row }) {
+    const { ctx, cols, CELL_SIZE } = state;
+
     ctx.lineWidth = CELL_SIZE / 50;
     ctx.strokeStyle = "black";
     ctx.fillStyle = "white";
 
     let col = 0;
     do {
-        await drawCell(col, row);
+        await drawCell(state, { col, row });
     } while (cols - 1 > col++);
 }
 
-async function drawCell(col, row) {
-    const { ctx, CELL_SIZE, items } = store.getState();
+async function drawCell(state, { col, row }) {
+    const { ctx, CELL_SIZE, items } = state;
     const x = col * CELL_SIZE;
     const y = row * CELL_SIZE;
     const item = items.find(item => item.row === row && item.col === col);
     if (item) {
-        await drawItem(item, x, y);
+        await drawItem(state, { item, x, y });
     }
     ctx.strokeRect(x, y, CELL_SIZE, CELL_SIZE);
 }
 
-async function drawItem({ url }, x, y) {
+async function drawItem(state, { item, x, y }) {
     return new Promise(resolve => {
-        const { ctx, CELL_SIZE } = store.getState();
+        const { ctx, CELL_SIZE } = state;
         const img = document.createElement("img");
-        img.src = url;
+        img.src = item.url;
         img.onload = e => {
             ctx.drawImage(img, x, y, CELL_SIZE, CELL_SIZE);
             resolve();
