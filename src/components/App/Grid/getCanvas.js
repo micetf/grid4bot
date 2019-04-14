@@ -28,12 +28,7 @@ async function drawGrid(state) {
 }
 
 async function drawRow(state, { row }) {
-    const { ctx, cols, CELL_SIZE } = state;
-
-    ctx.lineWidth = CELL_SIZE / 50;
-    ctx.strokeStyle = "black";
-    ctx.fillStyle = "white";
-
+    const { cols } = state;
     let col = 0;
     do {
         await drawCell(state, { col, row });
@@ -45,18 +40,23 @@ async function drawCell(state, { col, row }) {
     const x = col * CELL_SIZE;
     const y = row * CELL_SIZE;
     const item = items.find(item => item.row === row && item.col === col);
-    if (item) {
-        await drawItem(state, { item, x, y });
-    }
+
+    ctx.lineWidth = CELL_SIZE / 50;
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = "white";
+    await drawItem(state, { item, x, y });
     ctx.strokeRect(x, y, CELL_SIZE, CELL_SIZE);
 }
 
 async function drawItem(state, { item, x, y }) {
+    const { ctx, CELL_SIZE } = state;
     return new Promise(resolve => {
-        const { ctx, CELL_SIZE } = state;
+        if (!item) {
+            resolve();
+        }
         const img = document.createElement("img");
         img.src = item.url;
-        img.onload = e => {
+        img.onload = function() {
             ctx.drawImage(img, x, y, CELL_SIZE, CELL_SIZE);
             resolve();
         };
