@@ -1,9 +1,14 @@
-async function getCanvas({ cols, rows, adjust, items }) {
+const getCanvas = async ({ cols, rows, adjust, items }) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     const CELL_SIZE = 100;
 
-    const state = { ctx, CELL_SIZE, cols, rows, adjust, items };
+    const state = { ctx, CELL_SIZE: 100, cols, rows, adjust, items };
+    const drawingCols = drawCols(state);
+    const drawingRows = drawRows(state);
+    const drawingGrid = drawingCols(drawingRows);
+    const drawingCell = drawCell(state);
+    const drawingItem = drawItem(state);
 
     canvas.width = adjust ? CELL_SIZE * cols : CELL_SIZE * Math.max(cols, rows);
     canvas.height = adjust
@@ -14,53 +19,62 @@ async function getCanvas({ cols, rows, adjust, items }) {
     ctx.strokeStyle = "black";
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    await drawGrid(state);
-
+    await drawingGrid(drawingCell, drawingItem);
     return canvas;
-}
+};
 
-async function drawGrid(state) {
-    const { rows } = state;
-    let row = 0;
-    do {
-        await drawRow(state, { row });
-    } while (rows - 1 > row++);
-}
+const drawCols = ({ rows }) => drawingRows => async (
+    drawingItem,
+    drawingCell
+) =>
+    Promise.all(
+        Array.from({ length: rows }).map(
+            async (v, row) =>
+                await drawingRows(drawingCell, drawingItem)({ row })
+        )
+    );
 
-async function drawRow(state, { row }) {
-    const { cols } = state;
-    let col = 0;
-    do {
-        await drawCell(state, { col, row });
-    } while (cols - 1 > col++);
-}
+const drawItems = (drawingCell, drawingItem) => async ({ row, col }) => {
+    await drawingItem({ col, row });
+    await drawingCell({ col, row });
+};
 
-async function drawCell(state, { col, row }) {
-    const { ctx, CELL_SIZE, items } = state;
+const drawRows = ({ cols }) => (drawingCell, drawingItem) => {
+    const drawingItems = drawItems(drawingCell, drawingItem);
+    return async ({ row }) =>
+        Promise.all(
+            Array.from({ length: cols }).map(
+                async (v, col) => await drawingItems({ col, row })
+            )
+        );
+};
+
+const drawCell = ({ ctx, CELL_SIZE }) => async ({ row, col }) => {
     const x = col * CELL_SIZE;
     const y = row * CELL_SIZE;
-    const item = items.find(item => item.row === row && item.col === col);
-
     ctx.lineWidth = CELL_SIZE / 50;
     ctx.strokeStyle = "black";
     ctx.fillStyle = "white";
-    await drawItem(state, { item, x, y });
     ctx.strokeRect(x, y, CELL_SIZE, CELL_SIZE);
-}
+};
 
-async function drawItem(state, { item, x, y }) {
-    const { ctx, CELL_SIZE } = state;
-    return new Promise(resolve => {
-        if (!item) {
+const existItem = items => (row, col) =>
+    items.find(item => item.row === row && item.col === col);
+
+const drawItem = ({ ctx, CELL_SIZE, items }) => async ({ col, row }) =>
+    new Promise(resolve => {
+        const item = existItem(items)(row, col);
+        if (item === undefined) {
             resolve();
         }
         const img = document.createElement("img");
         img.src = item.url;
-        img.onload = function() {
+        img.onload = () => {
+            const x = col * CELL_SIZE;
+            const y = row * CELL_SIZE;
             ctx.drawImage(img, x, y, CELL_SIZE, CELL_SIZE);
             resolve();
         };
     });
-}
 
 export default getCanvas;
