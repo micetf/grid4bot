@@ -1,21 +1,18 @@
-const getCanvas = async ({ cols, rows, adjust, items }) => {
+const getCanvas = async ({ cols, rows, adjust, cellSize, items }) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    const CELL_SIZE = 100;
 
-    const state = { ctx, CELL_SIZE: 100, cols, rows, adjust, items };
+    const state = { ctx, CELL_SIZE: cellSize, cols, rows, adjust, items };
     const drawingCols = drawCols(state);
     const drawingRows = drawRows(state);
     const drawingGrid = drawingCols(drawingRows);
     const drawingCell = drawCell(state);
     const drawingItem = drawItem(state);
 
-    canvas.width = adjust ? CELL_SIZE * cols : CELL_SIZE * Math.max(cols, rows);
-    canvas.height = adjust
-        ? CELL_SIZE * rows
-        : CELL_SIZE * Math.max(cols, rows);
+    canvas.width = adjust ? cellSize * cols : cellSize * Math.max(cols, rows);
+    canvas.height = adjust ? cellSize * rows : cellSize * Math.max(cols, rows);
 
-    ctx.lineWidth = CELL_SIZE / 50;
+    ctx.lineWidth = cellSize / 50;
     ctx.strokeStyle = "black";
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);

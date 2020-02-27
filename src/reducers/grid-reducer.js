@@ -77,6 +77,16 @@ const adjustGrid = state => {
         },
     };
 };
+const selectCellSize = (state, action) => {
+    const { present } = state;
+    return {
+        ...state,
+        present: {
+            ...present,
+            cellSize: action.cellSize,
+        },
+    };
+};
 
 const initialState = {
     past: [],
@@ -84,6 +94,7 @@ const initialState = {
         rows: 4,
         cols: 4,
         adjust: false,
+        cellSize: 100,
         items: [{ url: "./img/robot.png", row: 3, col: 0 }],
     },
     future: [],
@@ -104,7 +115,9 @@ export default (state = initialState, action) => {
         case types.TOGGLE_ITEM:
             return toggleItem(state, action);
         case types.ADJUST_GRID:
-            return adjustGrid(state);
+            return adjustGrid(state, action);
+        case types.SELECT_CELL_SIZE:
+            return selectCellSize(state, action);
         case types.UNDO:
             const previous = past[past.length - 1];
             const newPast = past.slice(0, past.length - 1);

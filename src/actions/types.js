@@ -2,6 +2,7 @@ export const ADD_ROW = "ADD_ROW";
 export const ADD_COLUMN = "ADD_COLUMN";
 export const REMOVE_ROW = "REMOVE_ROW";
 export const REMOVE_COLUMN = "REMOVE_COLUMN";
+export const SELECT_CELL_SIZE = "SELECT_CELL_SIZE";
 
 export const SELECT_ITEM = "SELECT_ITEM";
 

@@ -18,13 +18,10 @@ function AdjustGridButton({ adjust, adjustGrid }) {
     return (
         <div className="row justify-content-center">
             <button onClick={handleAdjustGrid} className="btn btn-secondary">
-                {renderButton}
+                {renderButton(adjust)}
             </button>
         </div>
     );
 }
 
-export default connect(
-    null,
-    { adjustGrid }
-)(AdjustGridButton);
+export default connect(null, { adjustGrid })(AdjustGridButton);

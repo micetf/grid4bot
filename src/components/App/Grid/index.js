@@ -5,6 +5,7 @@ import ImgGrid from "./ImgGrid";
 import ManageRowButton from "./ManageRowButton";
 import ManageColumnButton from "./ManageColumnButton";
 import AdjustGridButton from "./AdjustGridButton";
+import SelectCellSize from "./SelectCellSize";
 import AbsoluteButtons from "./AbsoluteButtons";
 
 import useGrid from "./useGrid";
@@ -24,6 +25,7 @@ function Grid({ grid }) {
                 <ManageRowButton side="AFTER" />
             </div>
             <AdjustGridButton adjust={grid.adjust} />
+            <SelectCellSize cellSize={grid.cellSize} />
             <AbsoluteButtons src={src} />
         </div>
     );

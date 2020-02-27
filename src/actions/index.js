@@ -46,6 +46,11 @@ export const selectItem = item => ({
     item,
 });
 
+export const selectCellSize = cellSize => ({
+    type: types.SELECT_CELL_SIZE,
+    cellSize,
+});
+
 export const toggleItem = ({ url, row, col }) => ({
     type: types.TOGGLE_ITEM,
     url,
