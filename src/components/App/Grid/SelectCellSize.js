@@ -13,7 +13,6 @@ function SelectCellSize({ cellSize, selectCellSize }) {
             {value}px
         </option>
     );
-    console.log(cellSize);
     return (
         <div className="row justify-content-center">
             <label className="col-form-label mr-2">Dimension des cases </label>
